@@ -9,12 +9,9 @@ const {
 const { catchAsyncWrapper } = require("../utils/catchAsyncWrapper");
 
 let getTasks = async (req, res, next) => {
-  try {
-    const tasks = await getTasksService();
-    res.status(200).json(tasks);
-  } catch (err) {
-    next(err);
-  }
+  const { page = 1, limit = 10, completed } = req.query;
+  const tasks = await getTasksService(page, limit, completed);
+  res.status(200).json(tasks);
 };
 
 getTasks = catchAsyncWrapper(getTasks);
